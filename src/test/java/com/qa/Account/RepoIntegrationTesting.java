@@ -13,11 +13,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.qa.account.accountapi.rest.AccountRest;
-import com.qa.account.accountapi.service.AccountService;
-import com.qa.account.accountapi.util.exceptions.AccountNotFoundException;
-import com.qa.account.accountapi.persistence.domain.Account;
-import com.qa.account.accountapi.persistence.domain.Prize;
+import com.qa.user.userapi.persistence.domain.User;
+import com.qa.user.userapi.persistence.domain.Email;
+import com.qa.user.userapi.rest.UserRest;
+import com.qa.user.userapi.service.UserService;
+import com.qa.user.userapi.util.exceptions.UserNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,20 +35,20 @@ public class RepoIntegrationTesting {
 	public final ExpectedException exception = ExpectedException.none();
 
 	@Autowired
-	private AccountRest rest;
+	private UserRest rest;
 	
 	@Autowired
-	private AccountService service;
+	private UserService service;
 	
 	private TestRestTemplate restTemp = new TestRestTemplate();
 	
 	private static final String MOCK_GEN_URL = "Gen URL";
 	private static final String MOCK_PRIZE_URL = "prize URL";
-	private static final Account MOCK_BLANK_ACCOUNT = new Account();
+	private static final User MOCK_BLANK_ACCOUNT = new User();
 	private static final String MOCK_ACCOUNT_NUMBER = "B:646473";
-	private static final Prize MOCK_PRIZE = new Prize(1L, 50, "test date");
-	private static final Account MOCK_ACCOUNT = new Account(1L, "Ben", "Taylor", "A:746463");
-	private static final Account MOCK_UPDATED_ACCOUNT = new Account(1L, "Alvin", "Joseph", "B:745634"); 
+	private static final Email MOCK_PRIZE = new Email(1L, 50, "test date");
+	private static final User MOCK_ACCOUNT = new User(1L, "Ben", "Taylor", "A:746463");
+	private static final User MOCK_UPDATED_ACCOUNT = new User(1L, "Alvin", "Joseph", "B:745634"); 
 	
 	@Test
 	public void aAddAccountTest() {
@@ -60,13 +60,13 @@ public class RepoIntegrationTesting {
 	public void bGetAccountTest() {
 		assertEquals(MOCK_ACCOUNT.toString(), rest.getAccount(1L).toString());
 		
-		exception.expect(AccountNotFoundException.class);
+		exception.expect(UserNotFoundException.class);
 		rest.getAccount(2L);
 	}
 	
 	@Test
 	public void cGetAccountsTest() {
-		List<Account> accounts = new ArrayList<>();
+		List<User> accounts = new ArrayList<>();
 		accounts.add(MOCK_ACCOUNT);
 		
 		assertEquals(accounts.toString(), rest.getAccounts().toString());
@@ -81,7 +81,7 @@ public class RepoIntegrationTesting {
 	
 	@Test
 	public void eDeleteAccountTest() {
-		List<Account> emptyList = new ArrayList<>();
+		List<User> emptyList = new ArrayList<>();
 		assertEquals(new ResponseEntity<Object>(HttpStatus.OK), rest.deleteAccount(1L));
 		assertEquals(new ResponseEntity<Object>(HttpStatus.NOT_FOUND), rest.deleteAccount(2L));
 		assertEquals(emptyList, rest.getAccounts());

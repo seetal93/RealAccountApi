@@ -1,4 +1,4 @@
-package com.qa.account;
+package com.qa.user;
 
 import javax.jms.ConnectionFactory;
 
@@ -17,10 +17,10 @@ import org.springframework.web.client.RestTemplate;
 
 @EnableJms
 @SpringBootApplication
-public class AccountApplication {
+public class UserApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AccountApplication.class, args);
+		SpringApplication.run(UserApplication.class, args);
 	}
 	
 	@Bean
